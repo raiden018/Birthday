@@ -1,0 +1,776 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday Dhyana 💗</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap');
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'DM Sans', sans-serif;
+  background: linear-gradient(135deg,#ffe4ec,#fff3f5,#f5e8ff);
+  color: #70485b;
+  text-align: center;
+  min-height: 100vh;
+}
+
+.screen {
+  display: none;
+  min-height: 100vh;
+  padding: 55px 20px;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.screen.active {
+  display: flex;
+}
+
+h1,h2 {
+  font-family: 'Playfair Display',serif;
+  color: #bd6688;
+}
+
+h1 {
+  font-size: clamp(2rem,6vw,3.5rem);
+}
+
+p {
+  line-height: 1.8;
+  max-width: 600px;
+}
+
+button {
+  border: none;
+  background: #e98eae;
+  color: white;
+  padding: 13px 25px;
+  border-radius: 30px;
+  cursor: pointer;
+  font-size: 15px;
+  margin: 10px;
+  transition: .2s;
+}
+
+button:hover {
+  transform: translateY(-3px);
+}
+
+button:disabled {
+  opacity: .4;
+  cursor: not-allowed;
+}
+
+input {
+  padding: 13px;
+  border: 1px solid #edb4ca;
+  border-radius: 20px;
+  text-align: center;
+  margin: 12px;
+  outline: none;
+}
+
+.card {
+  background: rgba(255,255,255,.75);
+  padding: 30px;
+  border-radius: 25px;
+  max-width: 650px;
+  width: 100%;
+  box-shadow: 0 10px 30px #d98baa25;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.heart {
+  font-size: 35px;
+  animation: beat 1s infinite;
+}
+
+@keyframes beat {
+  50% { transform: scale(1.2); }
+}
+
+/* MUSIC BUTTON */
+
+#musicButton {
+  position: fixed;
+  bottom: 18px;
+  centre: 18px;
+  z-index: 10;
+  border-radius: 50px;
+  box-shadow: 0 4px 15px #0002;
+}
+
+/* REALISTIC BALLOON GAME */
+
+#balloons {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 25px 18px;
+  padding: 25px 10px 45px;
+}
+
+.balloon {
+  position: relative;
+  width: 62px;
+  height: 82px;
+  border-radius: 50% 50% 46% 46%;
+  cursor: pointer;
+  background:
+    radial-gradient(ellipse at 28% 23%,
+      rgba(255,255,255,.95) 0%,
+      rgba(255,255,255,.3) 9%,
+      transparent 25%),
+    linear-gradient(135deg,#ffd9e7,#ed82aa 65%,#d95e91);
+  box-shadow:
+    inset -9px -8px 15px rgba(130,40,75,.13),
+    3px 5px 12px rgba(130,40,75,.12);
+  transform-origin: bottom center;
+  animation: balloonFloat 2.5s ease-in-out infinite alternate;
+  transition: opacity .25s, transform .25s;
+}
+
+.balloon::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -7px;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 9px solid #e77ca3;
+}
+
+.balloon::after {
+  content: "";
+  position: absolute;
+  top: calc(100% + 2px);
+  left: 50%;
+  height: 42px;
+  width: 1px;
+  background: rgba(130,85,105,.55);
+}
+
+.balloon:nth-child(3n+2) {
+  background:
+    radial-gradient(ellipse at 28% 23%,white 0%,rgba(255,255,255,.3) 10%,transparent 25%),
+    linear-gradient(135deg,#e9ddff,#b89be8 65%,#9676ce);
+}
+
+.balloon:nth-child(3n+2)::before {
+  border-top-color: #b89be8;
+}
+
+.balloon:nth-child(3n) {
+  background:
+    radial-gradient(ellipse at 28% 23%,white 0%,rgba(255,255,255,.3) 10%,transparent 25%),
+    linear-gradient(135deg,#fff0c9,#f4bd78 65%,#e89a5d);
+}
+
+.balloon:nth-child(3n)::before {
+  border-top-color: #f4bd78;
+}
+
+.balloon:nth-child(4n) {
+  background:
+    radial-gradient(ellipse at 28% 23%,white 0%,rgba(255,255,255,.3) 10%,transparent 25%),
+    linear-gradient(135deg,#d5f5eb,#83d5bc 65%,#54b69b);
+}
+
+.balloon:nth-child(4n)::before {
+  border-top-color: #83d5bc;
+}
+
+.balloon:hover {
+  transform: scale(1.12);
+}
+
+.balloon.popped {
+  animation: balloonPop .25s forwards;
+  pointer-events: none;
+}
+
+@keyframes balloonFloat {
+  from { transform: translateY(0) rotate(-4deg); }
+  to { transform: translateY(-13px) rotate(4deg); }
+}
+
+@keyframes balloonPop {
+  0% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.4); opacity: .8; }
+  100% { transform: scale(0); opacity: 0; }
+}
+
+/* BIRTHDAY CAKE */
+
+.cake {
+  font-size: 115px;
+  margin: 15px;
+}
+
+.candles {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  font-size: 35px;
+}
+
+.candle {
+  cursor: pointer;
+  transition: .2s;
+}
+
+.candle.blown {
+  opacity: .35;
+}
+
+/* GALLERY */
+
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit,minmax(130px,1fr));
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.photo {
+  background: white;
+  padding: 9px 9px 25px;
+  border-radius: 8px;
+  transform: rotate(-2deg);
+}
+
+.photo:nth-child(even) {
+  transform: rotate(2deg);
+}
+
+.photo img {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  border-radius: 5px;
+}
+
+/* LETTER */
+
+.letter {
+  text-align: left;
+  white-space: pre-line;
+  line-height: 2;
+}
+
+/* BIRTHDAY WISH POPUP */
+
+#birthdayWish:not(.hidden) {
+  position: fixed;
+  inset: 0;
+  z-index: 150;
+  background: rgba(75,35,60,.48);
+  backdrop-filter: blur(7px);
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 20px;
+  animation: overlayAppear .4s ease;
+}
+
+.wish-popup {
+  background: linear-gradient(145deg,#fff8fb,#ffe6ef,#f5eaff);
+  border: 2px solid white;
+  border-radius: 28px;
+  padding: 30px 25px;
+  max-width: 540px;
+  width: 100%;
+  max-height: 85vh;
+  overflow-y: auto;
+  box-shadow: 0 15px 60px rgba(75,35,60,.25);
+  animation: popupAppear .65s cubic-bezier(.2,1.5,.5,1);
+}
+
+.wish-popup h2 {
+  font-size: 30px;
+}
+
+.wish-popup p {
+  line-height: 1.9;
+}
+
+@keyframes overlayAppear {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes popupAppear {
+  from {
+    transform: scale(.55) translateY(40px);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+  }
+}
+
+@media(max-width:480px) {
+  .balloon {
+    width: 52px;
+    height: 70px;
+  }
+
+  .wish-popup {
+    padding: 22px 18px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- BACKGROUND MUSIC -->
+<audio id="music" loop>
+  <source src="assets/Birthday-song.mp3" type="audio/mpeg">
+</audio>
+
+<button id="musicButton" onclick="toggleMusic()">🎵 Play Music</button>
+
+<!-- 1. PASSWORD SCREEN -->
+<section id="password" class="screen active">
+  <div class="card">
+    <div class="heart">💗</div>
+    <h1>A little surprise awaits...</h1>
+    <p>Someone has made something special for you.</p>
+
+    <input id="passwordInput" type="password"
+      placeholder="Enter the secret password">
+
+    <br>
+
+    <button onclick="checkPassword()">
+      Unlock your surprise ✨
+    </button>
+
+    <p id="passwordError"></p>
+  </div>
+</section>
+
+<!-- 2. WELCOME SCREEN -->
+<section id="welcome" class="screen">
+  <div class="card">
+    <div class="heart">🌷</div>
+    <h1>Happy Birthday, Dhyana!</h1>
+    <p>A little corner of the internet, made just to celebrate you.</p>
+    <p>Ready for your little birthday adventure?</p>
+
+    <button onclick="showScreen('game')">
+      Let's begin 💕
+    </button>
+  </div>
+</section>
+
+<!-- 3. BALLOON POPPING GAME -->
+<section id="game" class="screen">
+  <div class="card">
+    <h1>Pop the balloons! 🎈</h1>
+    <p>Pop all 10 balloons to unlock your birthday surprise.</p>
+
+    <h2 id="balloonCount">0 / 10 popped</h2>
+
+    <div id="balloons"></div>
+
+    <p id="gameMessage"></p>
+
+    <button id="gameNext" class="hidden"
+      onclick="showScreen('cake')">
+      Continue 🎂
+    </button>
+  </div>
+</section>
+
+<!-- 4. BIRTHDAY CAKE -->
+<section id="cake" class="screen">
+  <div class="card">
+    <p>One more birthday tradition...</p>
+    <h1>Make a wish, Dhyana! 🎂</h1>
+    <p>Tap each candle to blow it out!</p>
+
+    <div class="candles">
+      <span class="candle" onclick="blowCandle(this)">🕯️</span>
+      <span class="candle" onclick="blowCandle(this)">🕯️</span>
+      <span class="candle" onclick="blowCandle(this)">🕯️</span>
+    </div>
+
+    <div class="cake">🎂</div>
+
+    <p id="candleMessage">3 candles are waiting...</p>
+
+    <button id="wishButton" onclick="revealWish()" disabled>
+      Make a wish ✨
+    </button>
+  </div>
+</section>
+
+<!-- 5. SECRET BIRTHDAY WISH POPUP -->
+<div id="birthdayWish" class="hidden">
+  <div class="wish-popup">
+
+    <div style="font-size:45px;">🌸💗🎈</div>
+
+    <h2>A little wish for you 💌</h2>
+
+    <p>
+      Some people make ordinary days feel a little more special
+      just by being themselves. I hope you never lose that
+      little spark that makes you, you.
+
+      <br><br>
+
+      May this new chapter bring you countless reasons to smile,
+      beautiful memories, dreams that find their way to reality,
+      and people who make you feel as appreciated as you deserve.
+
+      <br><br>
+
+      I hope life surprises you in the loveliest ways, and that
+      even on difficult days, you never forget how wonderful
+      it is to be you.
+
+      <br><br>
+
+      Keep growing, keep exploring, and keep being your
+      wonderfully chaotic self.
+
+      <br><br>
+
+      <strong>Happy Birthday, Dhyana! 💗</strong>
+    </p>
+
+    <div style="font-size:35px;">🌷🦋🌸</div>
+
+    <button onclick="closeWishAndContinue()">
+      Let's see some memories 📸
+    </button>
+
+  </div>
+</div>
+
+<!-- 6. PHOTO GALLERY -->
+<section id="gallery" class="screen">
+  <div class="card">
+    <h1>Little moments, big memories 📸</h1>
+    <p>A collection of moments worth keeping.</p>
+
+    <div class="gallery">
+
+      <div class="photo">
+        <img src="assets/photo1.jpg" alt="Memory 1">
+        <p>💗</p>
+      </div>
+
+      <div class="photo">
+        <img src="assets/photo2.jpg" alt="Memory 2">
+        <p>🌷</p>
+      </div>
+
+      <div class="photo">
+        <img src="assets/photo3.jpg" alt="Memory 3">
+        <p>✨</p>
+      </div>
+
+      <div class="photo">
+        <img src="assets/photo4.jpg" alt="Memory 4">
+        <p>🦋</p>
+      </div>
+
+      <div class="photo">
+        <img src="assets/photo5.jpg" alt="Memory 5">
+        <p>💕</p>
+      </div>
+
+      <div class="photo">
+        <img src="assets/photo6.jpg" alt="Memory 3">
+        <p>✨</p>
+      </div>
+
+      <div class="photo">
+        <img src="assets/photo7.jpg" alt="Memory 4">
+        <p>🦋</p>
+      </div>
+
+      <div class="photo">
+        <img src="assets/photo8.jpg" alt="Memory 5">
+        <p>💕</p>
+      </div>
+
+    </div>
+
+    <button onclick="showScreen('letter')">
+      A letter for you 💌
+    </button>
+  </div>
+</section>
+
+<!-- 7. BIRTHDAY LETTER -->
+<section id="letter" class="screen">
+  <div class="card">
+    <h1>A little letter 💌</h1>
+
+    <div class="letter">
+Dear Dhyana,
+
+Happy Birthday!
+
+I hope today reminds you of all the lovely things life has to offer.
+You deserve happiness that feels genuine, friendships that feel like home,
+and adventures that give you stories to tell for years.
+
+Thank you for being you, for the laughs, the little moments,
+and all the memories along the way.
+
+I hope this year is kind to you, brings you closer to your dreams,
+and gives you plenty of reasons to smile.
+
+Never stop being curious, silly, ambitious, and wonderfully yourself.
+
+Wishing you the happiest birthday!
+
+With lots of good wishes,
+Someone who wishes you well 💗
+    </div>
+
+    <button onclick="showScreen('final')">
+      One last surprise 🌸
+    </button>
+  </div>
+</section>
+
+<!-- 8. FINAL SCREEN -->
+<section id="final" class="screen">
+  <div class="card">
+    <div class="heart">💗</div>
+
+    <h1>That's a wrap!</h1>
+
+    <p>
+      May your days be colourful, your dreams be big,
+      and your smiles never run out.
+    </p>
+
+    <h2>Happy Birthday once again, Dhyana! 🎂</h2>
+
+    <p>Made with a little extra care and lots of pink.</p>
+
+    <button onclick="replayWebsite()">
+      Replay the surprise ↻
+    </button>
+  </div>
+</section>
+
+<script>
+
+/* PASSWORD */
+const PASSWORD = "0811";
+
+function checkPassword() {
+  const entered = document.getElementById('passwordInput').value;
+
+  if (entered === "0811") {
+    showScreen('welcome');
+  } else {
+    document.getElementById('passwordError').textContent =
+      "Oops! That's not the right password 💗";
+  }
+}
+
+/* SCREEN NAVIGATION */
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(screen => {
+    screen.classList.remove('active');
+  });
+
+  document.getElementById(id).classList.add('active');
+
+  window.scrollTo(0,0);
+}
+
+/* MUSIC */
+function toggleMusic() {
+  const music = document.getElementById('music');
+  const button = document.getElementById('musicButton');
+
+  if (music.paused) {
+    music.play().then(() => {
+      button.textContent = "⏸ Pause Music";
+    }).catch(() => {
+      button.textContent = "🎵 Try Again";
+    });
+  } else {
+    music.pause();
+    button.textContent = "🎵 Play Music";
+  }
+}
+
+/* BALLOON GAME */
+let popped = 0;
+const balloons = document.getElementById('balloons');
+
+function createBalloons() {
+  balloons.innerHTML = '';
+  popped = 0;
+
+  document.getElementById('balloonCount').textContent = '0 / 10 popped';
+  document.getElementById('gameMessage').textContent = '';
+  document.getElementById('gameNext').classList.add('hidden');
+
+  for (let i = 0; i < 10; i++) {
+    const balloon = document.createElement('div');
+
+    balloon.className = 'balloon';
+    balloon.setAttribute('aria-label', 'Pop balloon');
+
+    balloon.onclick = function() {
+      if (balloon.classList.contains('popped')) return;
+
+      balloon.classList.add('popped');
+      popped++;
+
+      document.getElementById('balloonCount').textContent =
+        popped + ' / 10 popped';
+
+      if (popped === 10) {
+        document.getElementById('gameMessage').textContent =
+          'You did it! Your birthday surprise awaits! 💗';
+
+        document.getElementById('gameNext').classList.remove('hidden');
+      }
+    };
+
+    balloons.appendChild(balloon);
+  }
+}
+
+createBalloons();
+
+/* BIRTHDAY CANDLES */
+let candlesLeft = 3;
+
+function blowCandle(candle) {
+  if (candle.classList.contains('blown')) return;
+
+  candle.classList.add('blown');
+  candle.textContent = '💨';
+
+  candlesLeft--;
+
+  document.getElementById('candleMessage').textContent =
+    candlesLeft > 0
+      ? candlesLeft + ' candle(s) left!'
+      : 'All wishes are ready! 💗';
+
+  if (candlesLeft === 0) {
+    document.getElementById('wishButton').disabled = false;
+    document.getElementById('wishButton').textContent =
+      'Make your wish! ✨';
+  }
+}
+
+/* REVEAL BIRTHDAY WISH */
+function revealWish() {
+  document.getElementById('birthdayWish').classList.remove('hidden');
+  launchConfetti();
+}
+
+/* CLOSE WISH AND OPEN GALLERY */
+function closeWishAndContinue() {
+  document.getElementById('birthdayWish').classList.add('hidden');
+  showScreen('gallery');
+}
+
+/* BIG BIRTHDAY CONFETTI EXPLOSION */
+function launchConfetti() {
+
+  const decorations = [
+    '🌸','🌷','🌺','🌼','💐',
+    '💗','💕','💖','❤️','🩷',
+    '🎈','🎀','🦋','✨'
+  ];
+
+  for (let i = 0; i < 220; i++) {
+
+    const piece = document.createElement('div');
+
+    piece.textContent =
+      decorations[Math.floor(Math.random() * decorations.length)];
+
+    piece.style.position = 'fixed';
+    piece.style.left = Math.random() * 100 + 'vw';
+    piece.style.top = '-50px';
+    piece.style.fontSize = (18 + Math.random() * 25) + 'px';
+    piece.style.zIndex = '200';
+    piece.style.pointerEvents = 'none';
+
+    document.body.appendChild(piece);
+
+    const animation = piece.animate([
+      {
+        transform: 'translateY(0) rotate(0deg)',
+        opacity: 1
+      },
+      {
+        transform:
+          `translateY(${window.innerHeight + 100}px) rotate(${Math.random()*900}deg)`,
+        opacity: 0.9
+      }
+    ], {
+      duration: 3500 + Math.random() * 3000,
+      easing: 'ease-in'
+    });
+
+    animation.onfinish = () => piece.remove();
+  }
+}
+
+/* REPLAY WEBSITE */
+function replayWebsite() {
+  document.getElementById('birthdayWish').classList.add('hidden');
+
+  // Reset balloon game
+  createBalloons();
+
+  // Reset birthday candles
+  candlesLeft = 3;
+
+  document.querySelectorAll('.candle').forEach(candle => {
+    candle.classList.remove('blown');
+    candle.textContent = '🕯️';
+  });
+
+  document.getElementById('candleMessage').textContent =
+    '3 candles are waiting...';
+
+  document.getElementById('wishButton').disabled = true;
+  document.getElementById('wishButton').textContent =
+    'Make a wish ✨';
+
+  showScreen('welcome');
+}
+
+</script>
+
+</body>
+</html>
